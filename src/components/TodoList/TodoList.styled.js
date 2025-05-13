@@ -9,6 +9,7 @@ export const Item = styled.li`
     align-items: center;
     gap: 15px;
     margin-bottom: 15px;
+    margin-top: 15px;
 `
 
 export const Input = styled.input`

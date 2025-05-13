@@ -2,6 +2,9 @@ import { Component } from "react"
 import { TodoList } from "./TodoList/TodoList";
 import initialTodos from '../todo.json'
 import { Container } from "./App.styled";
+import { TodoEditor } from "./TodoEditor/TodoEditor";
+import { nanoid } from "nanoid";
+import { Filter } from "./Filter/Filter";
 
 export class App extends Component {
   state={
@@ -29,6 +32,33 @@ export class App extends Component {
     }))
   }
 
+  addTodo = (text) => {
+    const todo = {
+      id: nanoid(),
+      text,
+      completed: false,
+    }
+
+    this.setState(({todos}) => ({
+      todos: [
+        todo,
+        ...todos
+      ]
+    }))
+  }
+
+  changeFilter = (e) => {
+    this.setState({
+			filter: e.currentTarget.value,
+		})
+  }
+
+  getVisibleTodos = () => {
+    const normalizedFilter = this.state.filter.toLowerCase();
+
+    return this.state.todos.filter(todo => todo.text.toLowerCase().includes(normalizedFilter))
+  }
+
   render() {
     return (
       <Container>
@@ -36,7 +66,9 @@ export class App extends Component {
           <p>Total: 0</p>
           <p>Completed: 0</p>
         </div>
-        <TodoList todos={this.state.todos} onToggleCompleted={this.toggleCompleted} onDeleteTodo={this.deleteTodo}/>
+        <TodoEditor onSubmit={this.addTodo}/>
+        <Filter value={this.state.filter} onChange={this.changeFilter}/>
+        <TodoList todos={this.getVisibleTodos()} onToggleCompleted={this.toggleCompleted} onDeleteTodo={this.deleteTodo} />
       </Container>
     );
   }
