@@ -12,6 +12,29 @@ export class App extends Component {
     filter: '',
   }
 
+  componentDidMount() {
+    console.log('mounted');
+    const todos = JSON.parse(localStorage.getItem('todos'))
+    console.log(todos);
+
+    if (todos) {
+      this.setState({todos: todos})
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('updated');
+    console.log(prevState);
+    console.log(this.state);
+
+    if (this.state.todos !== prevState.todos) {
+      console.log('todos updated');
+      localStorage.setItem('todos', JSON.stringify(this.state.todos))
+    }
+  }
+
+
+
   toggleCompleted = (todoId) => {
     this.setState(prevState => ({
       todos: prevState.todos.map(todo => {
