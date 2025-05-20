@@ -47,3 +47,19 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+button {
+  background-color: #B6B09F;
+  border: none;
+  border-radius: 5px;
+  width: 80px;
+  height: 30px;
+  transition: .2s ease-in-out 0s;
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #948E7F;
+  transform: scale(1.05);
+}

@@ -5,6 +5,7 @@ import { Container } from "./App.styled";
 import { TodoEditor } from "./TodoEditor/TodoEditor";
 import { nanoid } from "nanoid";
 import { Filter } from "./Filter/Filter";
+import { Info } from "./Info/Info";
 
 export class App extends Component {
   state={
@@ -56,18 +57,25 @@ export class App extends Component {
   }
 
   addTodo = (text) => {
-    const todo = {
-      id: nanoid(),
-      text,
-      completed: false,
-    }
+    if (text !== '') {
+      const todo = {
+        id: nanoid(),
+        text,
+        completed: false,
+      }
 
-    this.setState(({todos}) => ({
-      todos: [
-        todo,
-        ...todos
-      ]
-    }))
+      this.setState(({todos}) => ({
+        todos: [
+          todo,
+          ...todos
+        ]
+      }))
+    } else {
+      alert('Введiть текст!')
+    }
+    
+
+    
   }
 
   changeFilter = (e) => {
@@ -85,10 +93,7 @@ export class App extends Component {
   render() {
     return (
       <Container>
-        <div>
-          <p>Total: 0</p>
-          <p>Completed: 0</p>
-        </div>
+        <Info total={this.state.todos.length} completed={this.state.todos.filter(todo => todo.completed).length}/>
         <TodoEditor onSubmit={this.addTodo}/>
         <Filter value={this.state.filter} onChange={this.changeFilter}/>
         <TodoList todos={this.getVisibleTodos()} onToggleCompleted={this.toggleCompleted} onDeleteTodo={this.deleteTodo} />
